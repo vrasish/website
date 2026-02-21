@@ -87,6 +87,23 @@
             text-align: center;
             color: #666;
         }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff6b9d;
+            position: fixed;
+            top: -10px;
+            opacity: 1;
+            animation: confetti-fall linear forwards;
+            pointer-events: none;
+        }
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -123,5 +140,46 @@
             <p>&copy; 2024 My Website. All rights reserved.</p>
         </footer>
     </div>
+    
+    <script>
+        function createConfetti() {
+            const colors = ['#ff6b9d', '#a855f7', '#7c3aed', '#00d2ff', '#3a7bd5', '#ffd700', '#ff6b6b', '#4ecdc4'];
+            const confettiCount = 150;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                confetti.style.height = confetti.style.width;
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0%';
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+        
+        // Trigger confetti on page load
+        window.addEventListener('load', () => {
+            setTimeout(createConfetti, 300);
+        });
+        
+        // Add click event to button to trigger confetti
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.querySelector('.button');
+            if (button) {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    createConfetti();
+                });
+            }
+        });
+    </script>
 </body>
 </html>
